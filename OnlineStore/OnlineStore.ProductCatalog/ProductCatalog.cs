@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Fabric;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using System.Fabric;
 
 namespace OnlineStore.ProductCatalog
 {
@@ -42,7 +37,7 @@ namespace OnlineStore.ProductCatalog
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                ServiceEventSource.Current.ServiceMessage(this.Context, "Working-{0}", ++iterations);
+                ServiceEventSource.Current.ServiceMessage(this.Context, $"Working-{++iterations} :---: ReplicaId-{this.Context.InstanceId}");
 
                 await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             }
