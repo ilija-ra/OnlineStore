@@ -39,6 +39,9 @@
     <ProjectReference Include="..\OnlineStore.Client\OnlineStore.Client.csproj">
       <ServiceLaunchUrl>http://localhost:{ServicePort}/</ServiceLaunchUrl>
     </ProjectReference>
+    <ProjectReference Include="..\OnlineStore.ProductCatalog\OnlineStore.ProductCatalog.csproj" />
+    <ProjectReference Include="..\OnlineStore.ShoppingCart\OnlineStore.ShoppingCart.csproj" />
+    <ProjectReference Include="..\OnlineStore.UserManagement\OnlineStore.UserManagement.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <PropertyGroup>

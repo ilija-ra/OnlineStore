@@ -3,6 +3,11 @@
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
+    <Parameter Name="OnlineStore.ShoppingCart_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="OnlineStore.ShoppingCart_PartitionCount" DefaultValue="1" />
+    <Parameter Name="OnlineStore.ShoppingCart_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="OnlineStore.ProductCatalog_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="OnlineStore.UserManagement_InstanceCount" DefaultValue="-1" />
     <Parameter Name="OnlineStore.Client_InstanceCount" DefaultValue="-1" />
   </Parameters>
   <Services>
@@ -11,6 +16,21 @@
          ServiceFabric PowerShell module.
 
          The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
+    <Service Name="OnlineStore.ShoppingCart" ServicePackageActivationMode="ExclusiveProcess">
+      <StatefulService ServiceTypeName="OnlineStore.ShoppingCartType" TargetReplicaSetSize="[OnlineStore.ShoppingCart_TargetReplicaSetSize]" MinReplicaSetSize="[OnlineStore.ShoppingCart_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[OnlineStore.ShoppingCart_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+    <Service Name="OnlineStore.ProductCatalog" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="OnlineStore.ProductCatalogType" InstanceCount="[OnlineStore.ProductCatalog_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+    <Service Name="OnlineStore.UserManagement" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="OnlineStore.UserManagementType" InstanceCount="[OnlineStore.UserManagement_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
     <Service Name="OnlineStore.Client" ServicePackageActivationMode="ExclusiveProcess">
       <StatelessService ServiceTypeName="OnlineStore.ClientType" InstanceCount="[OnlineStore.Client_InstanceCount]">
         <SingletonPartition />
