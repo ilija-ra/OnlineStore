@@ -1,35 +1,33 @@
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using OnlineStore.Communication.ProductCatalog;
 using System.Fabric;
 
 namespace OnlineStore.ProductCatalog
 {
-    /// <summary>
-    /// An instance of this class is created for each service instance by the Service Fabric runtime.
-    /// </summary>
-    internal sealed class ProductCatalog : StatelessService
+    internal sealed class ProductCatalog : StatelessService, IProductCatalog
     {
         public ProductCatalog(StatelessServiceContext context)
             : base(context)
         { }
 
-        /// <summary>
-        /// Optional override to create listeners (e.g., TCP, HTTP) for this service replica to handle client or user requests.
-        /// </summary>
-        /// <returns>A collection of listeners.</returns>
-        protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
+        #region IProductCatalogImplementation
+
+        public async Task<string> Search(string? query)
         {
-            return new ServiceInstanceListener[0];
+            return "The product catalog was searched!";
         }
 
-        /// <summary>
-        /// This is the main entry point for your service instance.
-        /// </summary>
-        /// <param name="cancellationToken">Canceled when Service Fabric needs to shut down this service instance.</param>
+        #endregion
+
+        protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
+        {
+            return this.CreateServiceRemotingInstanceListeners();
+        }
+
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
-            // TODO: Replace the following sample code with your own logic 
-            //       or remove this RunAsync override if it's not needed in your service.
 
             long iterations = 0;
 

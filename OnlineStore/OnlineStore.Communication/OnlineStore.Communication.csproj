@@ -1,9 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" Version="7.0.1816" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ProductCatalog\Models\" />
+    <Folder Include="ShoppingCart\Models\" />
+  </ItemGroup>
 
 </Project>

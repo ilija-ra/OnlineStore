@@ -1,45 +1,39 @@
-using System;
-using System.Collections.Generic;
-using System.Fabric;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Data.Collections;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using OnlineStore.Communication.ShoppingCart;
+using System.Fabric;
 
 namespace OnlineStore.ShoppingCart
 {
-    /// <summary>
-    /// An instance of this class is created for each service replica by the Service Fabric runtime.
-    /// </summary>
-    internal sealed class ShoppingCart : StatefulService
+    internal sealed class ShoppingCart : StatefulService, IShoppingCart
     {
         public ShoppingCart(StatefulServiceContext context)
             : base(context)
         { }
 
-        /// <summary>
-        /// Optional override to create listeners (e.g., HTTP, Service Remoting, WCF, etc.) for this service replica to handle client or user requests.
-        /// </summary>
-        /// <remarks>
-        /// For more information on service communication, see https://aka.ms/servicefabricservicecommunication
-        /// </remarks>
-        /// <returns>A collection of listeners.</returns>
-        protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
+        #region IShoppingCartImplementation
+
+        public async Task<string> Add(string? item)
         {
-            return new ServiceReplicaListener[0];
+            return "The item is added to shopping cart!";
         }
 
-        /// <summary>
-        /// This is the main entry point for your service replica.
-        /// This method executes when this replica of your service becomes primary and has write status.
-        /// </summary>
-        /// <param name="cancellationToken">Canceled when Service Fabric needs to shut down this service replica.</param>
+        public async Task<string> Remove(string? itemId)
+        {
+            return "The item is removed from shopping cart!";
+        }
+
+        #endregion
+
+        protected override IEnumerable<ServiceReplicaListener> CreateServiceReplicaListeners()
+        {
+            return this.CreateServiceRemotingReplicaListeners();
+        }
+
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
-            // TODO: Replace the following sample code with your own logic 
-            //       or remove this RunAsync override if it's not needed in your service.
 
             var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
 
@@ -56,8 +50,6 @@ namespace OnlineStore.ShoppingCart
 
                     await myDictionary.AddOrUpdateAsync(tx, "Counter", 0, (key, value) => ++value);
 
-                    // If an exception is thrown before calling CommitAsync, the transaction aborts, all changes are 
-                    // discarded, and nothing is saved to the secondary replicas.
                     await tx.CommitAsync();
                 }
 
