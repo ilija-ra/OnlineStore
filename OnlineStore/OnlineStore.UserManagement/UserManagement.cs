@@ -31,7 +31,7 @@ namespace OnlineStore.UserManagement
             };
         }
 
-        public async Task<UserManagementUserUpdateResponseModel> UserUpdate(UserManagementUserUpdateRequestModel? userModel)
+        public async Task<UserManagementUserUpdateResponseModel> UserUpdate(UserManagementUserUpdateRequestModel? model)
         {
             //{
             //    "id": "555",
@@ -51,9 +51,9 @@ namespace OnlineStore.UserManagement
 
             response.Items = new List<UserManagementPurchaseGetAllItemModel>()
             {
-                new UserManagementPurchaseGetAllItemModel(){ Name = "Purchase1" },
-                new UserManagementPurchaseGetAllItemModel(){ Name = "Purchase2" },
-                new UserManagementPurchaseGetAllItemModel(){ Name = "Purchase3" }
+                new UserManagementPurchaseGetAllItemModel(){ Id = 1, PurchaseDate = DateTime.Now, PurchasedProducts = new List<UserManagementPurchaseProductItemModel>(), TotalAmount = 1500, PaymentMethod = "PayPal", CustomerId = "111" },
+                new UserManagementPurchaseGetAllItemModel(){ Id = 2, PurchaseDate = DateTime.Now, PurchasedProducts = new List<UserManagementPurchaseProductItemModel>(), TotalAmount = 1200, PaymentMethod = "Cash On Delivery", CustomerId = "111" },
+                new UserManagementPurchaseGetAllItemModel(){ Id = 3, PurchaseDate = DateTime.Now, PurchasedProducts = new List<UserManagementPurchaseProductItemModel>(), TotalAmount = 1700, PaymentMethod = "Cash On Delivery", CustomerId = "111" }
             };
 
             return response;

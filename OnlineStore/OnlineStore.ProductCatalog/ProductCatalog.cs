@@ -2,6 +2,7 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using OnlineStore.Communication.ProductCatalog;
+using OnlineStore.Communication.ProductCatalog.Models;
 using System.Fabric;
 
 namespace OnlineStore.ProductCatalog
@@ -14,9 +15,9 @@ namespace OnlineStore.ProductCatalog
 
         #region IProductCatalogImplementation
 
-        public async Task<string> Search(string? query)
+        public async Task<ProductCatalogProductSearchResponseModel> Search(string? query)
         {
-            return "The product catalog was searched!";
+            return new ProductCatalogProductSearchResponseModel();
         }
 
         #endregion

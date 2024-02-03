@@ -3,6 +3,7 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using OnlineStore.Communication.ShoppingCart;
+using OnlineStore.Communication.ShoppingCart.Models;
 using System.Fabric;
 
 namespace OnlineStore.ShoppingCart
@@ -15,14 +16,14 @@ namespace OnlineStore.ShoppingCart
 
         #region IShoppingCartImplementation
 
-        public async Task<string> Add(string? item)
+        public async Task<ShoppingCartProductAddResponseModel> Add(ShoppingCartProductAddRequestModel? model)
         {
-            return "The item is added to shopping cart!";
+            return new ShoppingCartProductAddResponseModel();
         }
 
-        public async Task<string> Remove(string? itemId)
+        public async Task<ShoppingCartProductRemoveResponseModel> Remove(ShoppingCartProductRemoveRequestModel? model)
         {
-            return "The item is removed from shopping cart!";
+            return new ShoppingCartProductRemoveResponseModel();
         }
 
         #endregion

@@ -1,11 +1,12 @@
 ﻿using Microsoft.ServiceFabric.Services.Remoting;
+using OnlineStore.Communication.ShoppingCart.Models;
 
 namespace OnlineStore.Communication.ShoppingCart
 {
     public interface IShoppingCart : IService
     {
-        Task<string> Add(string? item);
+        Task<ShoppingCartProductAddResponseModel> Add(ShoppingCartProductAddRequestModel? model);
 
-        Task<string> Remove(string? itemId);
+        Task<ShoppingCartProductRemoveResponseModel> Remove(ShoppingCartProductRemoveRequestModel? model);
     }
 }

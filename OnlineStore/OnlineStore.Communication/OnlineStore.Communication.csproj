@@ -10,9 +10,4 @@
     <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" Version="7.0.1816" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ProductCatalog\Models\" />
-    <Folder Include="ShoppingCart\Models\" />
-  </ItemGroup>
-
 </Project>

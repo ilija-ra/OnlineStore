@@ -3,6 +3,8 @@
   <Parameters>
     <Parameter Name="OnlineStore.APIGateway_ASPNETCORE_ENVIRONMENT" DefaultValue="" />
     <Parameter Name="OnlineStore.Client_ASPNETCORE_ENVIRONMENT" DefaultValue="" />
+    <!--<Parameter Name="TargetReplicaSetSize" DefaultValue="3" />
+	<Parameter Name="MinReplicaSetSize" DefaultValue="3" />-->
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
@@ -33,4 +35,15 @@
       <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="[OnlineStore.Client_ASPNETCORE_ENVIRONMENT]" />
     </EnvironmentOverrides>
   </ServiceManifestImport>
+  <!--<DefaultServices>
+		<Service Name="ShoppingCart" ServicePackageActivationMode="ExclusiveProcess">
+			<StatefulService ServiceTypeName="OnlineStore.ShoppingCartType" TargetReplicaSetSize="[TargetReplicaSetSize]" MinReplicaSetSize="[MinReplicaSetSize]">
+				<NamedPartition>
+					<Partition Name=""/>
+					<Partition Name=""/>
+					<Partition Name=""/>
+				</NamedPartition>
+			</StatefulService>
+		</Service>
+	</DefaultServices>-->
 </ApplicationManifest>
