@@ -1,32 +1,32 @@
-using System;
-using System.Collections.Generic;
-using System.Fabric;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using Microsoft.ServiceFabric.Services.Runtime;
-using Microsoft.ServiceFabric.Data;
+using OnlineStore.Communication.PubSub;
+using SoCreate.ServiceFabric.PubSub;
+using SoCreate.ServiceFabric.PubSub.Subscriber;
+using System.Fabric;
 
 namespace OnlineStore.APIGateway
 {
-    /// <summary>
-    /// The FabricRuntime creates an instance of this class for each service type instance.
-    /// </summary>
-    internal sealed class APIGateway : StatelessService
+    internal sealed class APIGateway : SubscriberStatelessServiceBase
     {
-        public APIGateway(StatelessServiceContext context)
-            : base(context)
+        public APIGateway(StatelessServiceContext context, IBrokerClient brokerClient = null)
+            : base(context, brokerClient)
         { }
 
-        /// <summary>
-        /// Optional override to create listeners (like tcp, http) for this service instance.
-        /// </summary>
-        /// <returns>The collection of listeners.</returns>
+        [Subscribe]
+        private Task HandleMessageOne(PublishedMessageOne message)
+        {
+            ServiceEventSource.Current.ServiceMessage(Context, $"Processing PublishedMessageOne: {message.Content}");
+            return Task.CompletedTask;
+        }
+
+        //[Subscribe(QueueType.Unordered)]
+        //private Task HandleMessageTwo(PublishedMessageTwo message)
+        //{
+        //    ServiceEventSource.Current.ServiceMessage(Context, $"Processing PublishedMessageTwo: {message.Content}");
+        //    return Task.CompletedTask;
+        //}
+
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
             return new ServiceInstanceListener[]
@@ -51,7 +51,7 @@ namespace OnlineStore.APIGateway
                         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
                         builder.Services.AddEndpointsApiExplorer();
                         builder.Services.AddSwaggerGen();
-                        
+
                         var app = builder.Build();
                         
                         // Configure the HTTP request pipeline.
@@ -60,12 +60,12 @@ namespace OnlineStore.APIGateway
                         app.UseSwagger();
                         app.UseSwaggerUI();
                         }
-                        
+
                         app.UseAuthorization();
-                        
+
                         app.MapControllers();
-                        
-                        
+
+
                         return app;
 
 
