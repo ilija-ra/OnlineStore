@@ -12,7 +12,7 @@
 
         public DateTime? DateOfBirth { get; set; }
 
-        public int? Age => this.DateOfBirth.HasValue ? Convert.ToInt32((DateTime.Now - this.DateOfBirth).Value.Days / 365) : null;
+        public long? Age => this.DateOfBirth.HasValue ? Convert.ToInt32((DateTime.Now - this.DateOfBirth).Value.Days / 365) : null;
 
         public string? Address { get; set; }
 

@@ -6,5 +6,7 @@ namespace OnlineStore.Communication.ProductCatalog
     public interface IProductCatalog : IService
     {
         Task<ProductCatalogProductSearchResponseModel> Search(string? query);
+
+        Task<ProductCatalogProductGetByIdResponseModel> GetById(long? productId);
     }
 }

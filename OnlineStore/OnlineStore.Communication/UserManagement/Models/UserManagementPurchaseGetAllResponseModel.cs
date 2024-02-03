@@ -17,7 +17,7 @@
 
         public string? PaymentMethod { get; set; }
 
-        public string? CustomerId { get; set; }
+        public string? UserId { get; set; }
     }
 
     public class UserManagementPurchaseProductItemModel
@@ -28,7 +28,7 @@
 
         public double? Price { get; set; }
 
-        public int? Quantity { get; set; }
+        public long? Quantity { get; set; }
 
         public string? Category { get; set; }
     }

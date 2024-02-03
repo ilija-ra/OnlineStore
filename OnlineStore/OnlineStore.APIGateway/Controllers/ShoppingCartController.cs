@@ -29,6 +29,16 @@ namespace OnlineStore.APIGateway.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("GetAll/{userId}")]
+        public async Task<IActionResult> GetAll(string? userId)
+        {
+            var shoppingCartProxy = ServiceProxy.Create<IShoppingCart>(new Uri("fabric:/OnlineStore/OnlineStore.ShoppingCart"), await getAvailablePartitionKey());
+            var result = await shoppingCartProxy.GetAll(userId);
+
+            return Ok(result);
+        }
+
         private async Task<ServicePartitionKey> getAvailablePartitionKey()
         {
             var partitionKey = new ServicePartitionKey();

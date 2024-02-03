@@ -22,4 +22,8 @@
     <ProjectReference Include="..\OnlineStore.Communication\OnlineStore.Communication.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Validators\" />
+  </ItemGroup>
+
 </Project>

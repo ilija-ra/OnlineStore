@@ -8,5 +8,7 @@ namespace OnlineStore.Communication.ShoppingCart
         Task<ShoppingCartProductAddResponseModel> Add(ShoppingCartProductAddRequestModel? model);
 
         Task<ShoppingCartProductRemoveResponseModel> Remove(ShoppingCartProductRemoveRequestModel? model);
+
+        Task<ShoppingCartProductGetAllResponseModel> GetAll(string? userId);
     }
 }

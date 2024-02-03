@@ -2,7 +2,7 @@
 {
     public class ProductCatalogProductSearchResponseModel
     {
-        public ICollection<ProductCatalogProductSearchItemModel> Items { get; set; } = new List<ProductCatalogProductSearchItemModel>();
+        public ICollection<ProductCatalogProductSearchItemModel>? Items { get; set; } = new List<ProductCatalogProductSearchItemModel>();
     }
 
     public class ProductCatalogProductSearchItemModel
@@ -15,7 +15,7 @@
 
         public double? Price { get; set; }
 
-        public int? Quantity { get; set; }
+        public long? Quantity { get; set; }
 
         public string? Category { get; set; }
     }

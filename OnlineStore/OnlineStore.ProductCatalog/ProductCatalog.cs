@@ -20,6 +20,11 @@ namespace OnlineStore.ProductCatalog
             return new ProductCatalogProductSearchResponseModel();
         }
 
+        public async Task<ProductCatalogProductGetByIdResponseModel> GetById(long? productId)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
@@ -29,7 +34,6 @@ namespace OnlineStore.ProductCatalog
 
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
-
             long iterations = 0;
 
             while (true)

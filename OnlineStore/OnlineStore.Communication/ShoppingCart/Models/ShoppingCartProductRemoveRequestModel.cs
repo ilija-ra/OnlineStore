@@ -2,10 +2,10 @@
 {
     public class ShoppingCartProductRemoveRequestModel
     {
-        public string? CustomerId { get; set; }
+        public long? ProductId { get; set; }
 
-        public long? ItemId { get; set; }
+        public string? UserId { get; set; }
 
-        public int? Quantity { get; set; }
+        public long? Quantity { get; set; }
     }
 }

@@ -1,6 +1,11 @@
 ﻿namespace OnlineStore.Communication.ShoppingCart.Models
 {
-    public class ShoppingCartProductAddRequestModel
+    public class ShoppingCartProductGetAllResponseModel
+    {
+        public ICollection<ShoppingCartProductGetAllItemModel>? Items { get; set; } = new List<ShoppingCartProductGetAllItemModel>();
+    }
+
+    public class ShoppingCartProductGetAllItemModel
     {
         public long? Id { get; set; }
 

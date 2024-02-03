@@ -1,6 +1,6 @@
-﻿namespace OnlineStore.Communication.ShoppingCart.Models
+﻿namespace OnlineStore.Communication.ProductCatalog.Models
 {
-    public class ShoppingCartProductAddRequestModel
+    public class ProductCatalogProductGetByIdResponseModel
     {
         public long? Id { get; set; }
 
@@ -13,7 +13,5 @@
         public long? Quantity { get; set; }
 
         public string? Category { get; set; }
-
-        public string? UserId { get; set; }
     }
 }
