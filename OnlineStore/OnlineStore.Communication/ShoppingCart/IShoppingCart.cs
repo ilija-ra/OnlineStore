@@ -9,7 +9,7 @@ namespace OnlineStore.Communication.ShoppingCart
 
         Task<ShoppingCartQuantityIncreaseResponseModel> IncreaseQuantity(long? productId, string? userId);
 
-        Task<ShoppingCartProductRemoveResponseModel> Remove(ShoppingCartProductRemoveRequestModel? model, string? userId);
+        Task<ShoppingCartProductRemoveResponseModel> Remove(long? productId, string? userId);
 
         Task<ShoppingCartQuantityDecreaseResponseModel> DecreaseQuantity(long? productId, string? userId);
 

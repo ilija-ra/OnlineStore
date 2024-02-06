@@ -1,0 +1,41 @@
+﻿@model OnlineStore.Client.Models.UserManagement.PurchaseHistoryListViewModel
+
+@{
+    ViewData["Title"] = "Purchase History";
+}
+
+<h1>Purchase History</h1>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                @* <th>Id</th> *@
+                <th>Purchase Date</th>
+                <th>Purchased Products</th>
+                <th>Total Amount</th>
+                <th>Payment Method</th>
+                @* <th>User Id</th> *@
+                @* <th>Actions</th> *@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var purchase in Model.Items!)
+            {
+                var purchasedProducts = "";
+                <tr>
+                    @* <td>@purchase.Id</td> *@
+                    <td>@purchase.PurchaseDate</td>
+                    @foreach (var product in @purchase.PurchasedProducts)
+                    {
+                        purchasedProducts += product + ", ";
+                    }
+                    <td>@purchasedProducts</td>
+                    <td>@purchase.TotalAmount</td>
+                    <td>@purchase.PaymentMethod</td>
+                    @* <td>@purchase.UserId</td> *@
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

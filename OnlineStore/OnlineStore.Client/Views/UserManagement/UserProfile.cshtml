@@ -1,15 +1,15 @@
-﻿@model OnlineStore.Client.Models.UserManagement.UserProfileDataModel
+﻿@model OnlineStore.Client.Models.UserManagement.UserInformationViewModel
 
 @{
     ViewData["Title"] = "Profile";
 }
 
-<h1>Profile Data</h1>
+<h1>Profile</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Profile" asp-controller="UserManagement">
+        <form asp-action="UserProfile" asp-controller="UserManagement" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @* <div class="form-group">
                 <label asp-for="Id" class="control-label"></label>

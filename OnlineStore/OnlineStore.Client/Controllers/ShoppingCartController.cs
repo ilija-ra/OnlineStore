@@ -18,15 +18,15 @@ namespace OnlineStore.Client.Controllers
 
         [HttpGet]
         [Route("AddProduct")]
-        public async Task<string> AddProduct(long id, string name, string description, double price, long quantity, string category, string userId)
+        public async Task<IActionResult> AddProduct(long productId, string name, string description, double price, string category, string query, string userId = "1111")
         {
             var model = new CatalogProductViewModel()
             {
-                Id = id,
+                Id = productId,
                 Name = name,
                 Description = description,
                 Price = price,
-                Quantity = quantity,
+                Quantity = 1,
                 Category = category
             };
 
@@ -34,29 +34,71 @@ namespace OnlineStore.Client.Controllers
 
             var content = new StringContent(jsonModel, Encoding.UTF8, "application/json");
 
-            var response = await _httpClientFactory.CreateClient().PostAsync($"{_apiGatewayUrl}/Add/{userId}", content);
+            var response = await _httpClientFactory.CreateClient().PostAsync($"{_apiGatewayUrl}/ShoppingCart/Add/{userId}", content);
 
             if (response.IsSuccessStatusCode)
             {
-                var jsonResult = await response.Content.ReadAsStringAsync();
-
-                //var result = JsonSerializer.Deserialize<CatalogProductListViewModel>(jsonResult, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-
-                ViewBag.ResponseMessage = jsonResult;
-
-                return jsonResult;
+                return RedirectToAction("Search", "CatalogProduct", new QueryViewModel() { Query = query });
             }
             else
             {
-                return "Error";
+                return View("Error");
+            }
+        }
+
+        [HttpGet]
+        [Route("IncreaseQuantity")]
+        public async Task<IActionResult> IncreaseQuantity(long productId, string userId = "1111")
+        {
+            var response = await _httpClientFactory.CreateClient().PostAsync($"{_apiGatewayUrl}/ShoppingCart/IncreaseQuantity/{productId}/{userId}", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("GetCartProducts");
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+        [HttpGet]
+        [Route("RemoveProduct")]
+        public async Task<IActionResult> RemoveProduct(long productId, string userId = "1111")
+        {
+            var response = await _httpClientFactory.CreateClient().PostAsync($"{_apiGatewayUrl}/ShoppingCart/Remove/{productId}/{userId}", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("GetCartProducts");
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+        [HttpGet]
+        [Route("DecreaseQuantity")]
+        public async Task<IActionResult> DecreaseQuantity(long productId, string userId = "1111")
+        {
+            var response = await _httpClientFactory.CreateClient().PostAsync($"{_apiGatewayUrl}/ShoppingCart/DecreaseQuantity/{productId}/{userId}", null);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("GetCartProducts");
+            }
+            else
+            {
+                return View("Error");
             }
         }
 
         [HttpGet]
         [Route("GetCartProducts")]
-        public async Task<IActionResult> GetCartProducts(string userId)
+        public async Task<IActionResult> GetCartProducts(string userId = "1111")
         {
-            var response = await _httpClientFactory.CreateClient().GetAsync($"{_apiGatewayUrl}/GetAll/{userId}");
+            var response = await _httpClientFactory.CreateClient().GetAsync($"{_apiGatewayUrl}/ShoppingCart/GetAll/{userId}");
 
             if (response.IsSuccessStatusCode)
             {

@@ -5,6 +5,8 @@ using OnlineStore.Communication.Order.Models;
 
 namespace OnlineStore.APIGateway.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class OrderController : ControllerBase
     {
         [HttpPost]

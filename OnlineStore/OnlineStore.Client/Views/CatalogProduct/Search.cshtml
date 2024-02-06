@@ -7,6 +7,13 @@
 <h1>Products</h1>
 
 <div>
+    <form id="searchForm" action="@Url.Action("Search", "CatalogProduct")" method="get">
+        <input id="searchInput" type="text" name="query" placeholder="Search by name, description and category..." value="@ViewBag.QueryValue" />
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<div>
     <table class="table">
         <thead>
             <tr>
@@ -30,14 +37,15 @@
                     <td>@Html.DisplayFor(model => product.Quantity)</td>
                     <td>@Html.DisplayFor(model => product.Category)</td>
                     <td>
-                        @Html.ActionLink("Add to cart", "AddProduct", "ShoppingCart", new { 
-                            id = product.Id,
+                        @Html.ActionLink("Add to cart", "AddProduct", "ShoppingCart", new {
+                            productId = product.Id,
                             name = product.Name,
                             description = product.Description,
                             price = product.Price,
                             quantity = product.Quantity,
                             category = product.Category,
-                            userId = "111" //IMPLEMENT 
+                            query = ViewBag.QueryValue,
+                            userId = "111", //IMPLEMENT
                         })
                     </td>
                 </tr>

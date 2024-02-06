@@ -7,6 +7,8 @@ using System.Fabric;
 
 namespace OnlineStore.APIGateway.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class ShoppingCartController : ControllerBase
     {
         [HttpPost]
@@ -30,11 +32,11 @@ namespace OnlineStore.APIGateway.Controllers
         }
 
         [HttpPost]
-        [Route("Remove/{userId}")]
-        public async Task<IActionResult> Remove([FromBody] ShoppingCartProductRemoveRequestModel model, string userId)
+        [Route("Remove/{productId:long}/{userId}")]
+        public async Task<IActionResult> Remove(long productId, string userId)
         {
             var shoppingCartProxy = ServiceProxy.Create<IShoppingCart>(new Uri("fabric:/OnlineStore/OnlineStore.ShoppingCart"), await getAvailablePartitionKey());
-            var result = await shoppingCartProxy.Remove(model, userId);
+            var result = await shoppingCartProxy.Remove(productId, userId);
 
             return Ok(result);
         }

@@ -31,7 +31,7 @@ namespace OnlineStore.ShoppingCart
                     Name = model.Name,
                     Description = model.Description,
                     Price = model.Price,
-                    Quantity = model.Quantity,
+                    Quantity = 1,
                     Category = model.Category,
                     UserId = userId
                 };
@@ -68,18 +68,17 @@ namespace OnlineStore.ShoppingCart
             return new ShoppingCartQuantityIncreaseResponseModel();
         }
 
-        public async Task<ShoppingCartProductRemoveResponseModel> Remove(ShoppingCartProductRemoveRequestModel? model, string? userId)
+        public async Task<ShoppingCartProductRemoveResponseModel> Remove(long? productId, string? userId)
         {
             using (ITransaction tx = _stateManager.CreateTransaction())
             {
-                ConditionalValue<ShoppingCartProductGetAllItemModel> existingProduct = await _cartProducts.TryGetValueAsync(tx, model!.ProductId!.Value);
+                ConditionalValue<ShoppingCartProductGetAllItemModel> existingProduct = await _cartProducts.TryGetValueAsync(tx, productId!.Value);
 
                 if (existingProduct.HasValue && existingProduct.Value.UserId == userId)
                 {
-                    existingProduct.Value.Quantity -= model.Quantity;
+                    await _cartProducts.TryRemoveAsync(tx, productId!.Value);
                 }
 
-                await _cartProducts.AddOrUpdateAsync(tx, existingProduct.Value.Id!.Value, existingProduct.Value, (id, value) => existingProduct.Value);
                 await tx.CommitAsync();
             }
 

@@ -5,6 +5,8 @@ using OnlineStore.Communication.UserManagement.Models;
 
 namespace OnlineStore.APIGateway.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class UserManagementController : ControllerBase
     {
         [HttpGet]

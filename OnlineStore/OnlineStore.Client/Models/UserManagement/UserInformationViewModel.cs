@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OnlineStore.Client.Models.UserManagement
 {
-    public class UserProfileDataModel
+    public class UserInformationViewModel
     {
         public string? Id { get; set; }
 

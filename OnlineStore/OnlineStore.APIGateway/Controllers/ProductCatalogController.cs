@@ -5,6 +5,8 @@ using OnlineStore.Communication.ProductCatalog.Models;
 
 namespace OnlineStore.APIGateway.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class ProductCatalogController : ControllerBase
     {
         [HttpPost]

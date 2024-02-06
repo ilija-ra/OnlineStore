@@ -27,7 +27,11 @@
                     <td>@Html.DisplayFor(model => product.Price)</td>
                     <td>@Html.DisplayFor(model => product.Quantity)</td>
                     <td>@Html.DisplayFor(model => product.Category)</td>
-                    <td><button>+</button><button>-</button></td>
+                    <td>
+                        @Html.ActionLink("+", "IncreaseQuantity", "ShoppingCart", new { productId = product.Id, userId = product.UserId }) | 
+                        @Html.ActionLink("-", "DecreaseQuantity", "ShoppingCart", new { productId = product.Id, userId = product.UserId }) |
+                        @Html.ActionLink("X", "RemoveProduct", "ShoppingCart", new { productId = product.Id, userId = product.UserId }, new { onclick = "return confirm('Are you sure you want to remove this product?');" })
+                    </td>
                 </tr>
             }
         </tbody>

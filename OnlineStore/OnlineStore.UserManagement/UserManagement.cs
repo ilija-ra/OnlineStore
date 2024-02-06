@@ -84,7 +84,7 @@ namespace OnlineStore.UserManagement
                     LastName = "Doe",
                     Username = "john_doe",
                     Password = "password123",
-                    DateOfBirth = new DateTime(1990, 5, 15),
+                    DateOfBirth = "1990/05/15",
                     Age = 32,
                     Address = "123 Main St",
                     City = "Example City",
@@ -97,7 +97,7 @@ namespace OnlineStore.UserManagement
                     LastName = "Smith",
                     Username = "jane_smith",
                     Password = "securepwd456",
-                    DateOfBirth = new DateTime(1985, 8, 25),
+                    DateOfBirth = "1985/08/25",
                     Age = 37,
                     Address = "456 Oak Ave",
                     City = "Another City",
@@ -110,7 +110,7 @@ namespace OnlineStore.UserManagement
                     LastName = "Johnson",
                     Username = "alice_j",
                     Password = "pass123",
-                    DateOfBirth = new DateTime(1995, 11, 10),
+                    DateOfBirth = "1995/11/10",
                     Age = 27,
                     Address = "789 Pine Rd",
                     City = "Yet Another City",
@@ -132,7 +132,18 @@ namespace OnlineStore.UserManagement
             //    "city": "New York",
             //    "zipCode": "11784"
             //}
-            return new UserManagementUserUpdateResponseModel();
+            return new UserManagementUserUpdateResponseModel()
+            {
+                Id = "555333",
+                FirstName = "John",
+                LastName = "Doe",
+                Username = "john_doe",
+                Password = "password123",
+                DateOfBirth = model?.DateOfBirth,
+                Address = "123 Main St",
+                City = "Example City",
+                ZipCode = "12345"
+            };
         }
 
         public async Task<UserManagementPurchaseGetAllResponseModel> PurchaseGetAll(string? userId)
@@ -141,9 +152,9 @@ namespace OnlineStore.UserManagement
 
             response.Items = new List<UserManagementPurchaseGetAllItemModel>()
             {
-                new UserManagementPurchaseGetAllItemModel(){ Id = 1, PurchaseDate = DateTime.Now, PurchasedProducts = new List<UserManagementPurchaseProductItemModel>(), TotalAmount = 1500, PaymentMethod = "PayPal", UserId = "111" },
-                new UserManagementPurchaseGetAllItemModel(){ Id = 2, PurchaseDate = DateTime.Now, PurchasedProducts = new List<UserManagementPurchaseProductItemModel>(), TotalAmount = 1200, PaymentMethod = "Cash On Delivery", UserId = "111" },
-                new UserManagementPurchaseGetAllItemModel(){ Id = 3, PurchaseDate = DateTime.Now, PurchasedProducts = new List<UserManagementPurchaseProductItemModel>(), TotalAmount = 1700, PaymentMethod = "Cash On Delivery", UserId = "111" }
+                new UserManagementPurchaseGetAllItemModel(){ Id = 1, PurchaseDate = DateTime.Now.ToString("yyyy/MM/dd"), PurchasedProducts = new List<string>(){ "Banana", "Apple", "Milk" }, TotalAmount = 1500, PaymentMethod = "PayPal", UserId = "111" },
+                new UserManagementPurchaseGetAllItemModel(){ Id = 2, PurchaseDate = DateTime.Now.ToString("yyyy/MM/dd"), PurchasedProducts = new List<string>(){ "Cheese", "Snickers", "Twix" }, TotalAmount = 1200, PaymentMethod = "Cash On Delivery", UserId = "111" },
+                new UserManagementPurchaseGetAllItemModel(){ Id = 3, PurchaseDate = DateTime.Now.ToString("yyyy/MM/dd"), PurchasedProducts = new List<string>(){ "Strawberry", "Berry" }, TotalAmount = 1700, PaymentMethod = "Cash On Delivery", UserId = "111" }
             };
 
             return response;

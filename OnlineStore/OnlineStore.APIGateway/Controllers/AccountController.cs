@@ -5,6 +5,8 @@ using OnlineStore.Communication.Account.Models;
 
 namespace OnlineStore.APIGateway.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class AccountController : ControllerBase
     {
         [HttpPost]

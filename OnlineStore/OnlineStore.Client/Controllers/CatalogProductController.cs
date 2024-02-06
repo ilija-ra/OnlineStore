@@ -17,16 +17,19 @@ namespace OnlineStore.Client.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllProducts")]
-        public async Task<IActionResult> GetAllProducts(QueryViewModel model)
+        [Route("Search")]
+        public async Task<IActionResult> Search(string query)
         {
-            model = model is null ? new QueryViewModel() : model;
+            //model = model is null ? new QueryViewModel() : model;
+            ViewBag.QueryValue = query;
+
+            var model = new QueryViewModel() { Query = query };
 
             var jsonModel = JsonSerializer.Serialize(model);
 
             var content = new StringContent(jsonModel, Encoding.UTF8, "application/json");
 
-            var response = await _httpClientFactory.CreateClient().PostAsync($"{_apiGatewayUrl}/Search", content);
+            var response = await _httpClientFactory.CreateClient().PostAsync($"{_apiGatewayUrl}/ProductCatalog/Search", content);
 
             if (response.IsSuccessStatusCode)
             {
