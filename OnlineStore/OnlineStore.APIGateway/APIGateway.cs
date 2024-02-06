@@ -1,24 +1,23 @@
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using OnlineStore.Communication.PubSub;
 using SoCreate.ServiceFabric.PubSub;
 using SoCreate.ServiceFabric.PubSub.Subscriber;
 using System.Fabric;
 
 namespace OnlineStore.APIGateway
 {
-    internal sealed class APIGateway : SubscriberStatelessServiceBase
+    internal sealed class APIGateway : /*StatelessService*/SubscriberStatelessServiceBase
     {
         public APIGateway(StatelessServiceContext context, IBrokerClient brokerClient = null)
             : base(context, brokerClient)
         { }
 
-        [Subscribe]
-        private Task HandleMessageOne(PublishedMessageOne message)
-        {
-            ServiceEventSource.Current.ServiceMessage(Context, $"Processing PublishedMessageOne: {message.Content}");
-            return Task.CompletedTask;
-        }
+        //[Subscribe]
+        //private Task HandleMessageOne(PublishedMessageOne message)
+        //{
+        //    ServiceEventSource.Current.ServiceMessage(Context, $"Processing PublishedMessageOne: {message.Content}");
+        //    return Task.CompletedTask;
+        //}
 
         //[Subscribe(QueueType.Unordered)]
         //private Task HandleMessageTwo(PublishedMessageTwo message)

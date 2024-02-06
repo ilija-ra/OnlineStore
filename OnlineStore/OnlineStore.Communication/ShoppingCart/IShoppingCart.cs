@@ -5,9 +5,13 @@ namespace OnlineStore.Communication.ShoppingCart
 {
     public interface IShoppingCart : IService
     {
-        Task<ShoppingCartProductAddResponseModel> Add(ShoppingCartProductAddRequestModel? model);
+        Task<ShoppingCartProductAddResponseModel> Add(ShoppingCartProductAddRequestModel? model, string? userId);
 
-        Task<ShoppingCartProductRemoveResponseModel> Remove(ShoppingCartProductRemoveRequestModel? model);
+        Task<ShoppingCartQuantityIncreaseResponseModel> IncreaseQuantity(long? productId, string? userId);
+
+        Task<ShoppingCartProductRemoveResponseModel> Remove(ShoppingCartProductRemoveRequestModel? model, string? userId);
+
+        Task<ShoppingCartQuantityDecreaseResponseModel> DecreaseQuantity(long? productId, string? userId);
 
         Task<ShoppingCartProductGetAllResponseModel> GetAll(string? userId);
     }

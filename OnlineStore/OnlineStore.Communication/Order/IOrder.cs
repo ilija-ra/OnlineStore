@@ -5,6 +5,8 @@ namespace OnlineStore.Communication.Order
 {
     public interface IOrder : IService
     {
-        Task<OrderConfirmResponseModel> Confirm(OrderConfirmRequestModel model);
+        Task<OrderPurchaseConfirmResponseModel> PurchaseConfirm(OrderPurchaseConfirmRequestModel model);
+
+        Task<OrderPurchaseGetAllResponseModel> PurchaseGetAll(string? userId);
     }
 }

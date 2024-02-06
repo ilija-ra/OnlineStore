@@ -7,6 +7,8 @@ namespace OnlineStore.Communication.UserManagement
     {
         Task<UserManagementUserGetByIdResponseModel> UserGetById(string? userId);
 
+        Task<UserManagementUserGetByCredentialsResponseModel> UserGetByCredentials(string? username, string? password);
+
         Task<UserManagementUserUpdateResponseModel> UserUpdate(UserManagementUserUpdateRequestModel? model);
 
         Task<UserManagementPurchaseGetAllResponseModel> PurchaseGetAll(string? userId);

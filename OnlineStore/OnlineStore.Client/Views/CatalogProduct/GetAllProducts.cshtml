@@ -1,0 +1,47 @@
+﻿@model OnlineStore.Client.Models.CatalogProduct.CatalogProductListViewModel
+
+@{
+    ViewData["Title"] = "Catalog";
+}
+
+<h1>Products</h1>
+
+<div>
+    <table class="table">
+        <thead>
+            <tr>
+                @* <th>Id</th> *@
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Items!)
+            {
+                <tr>
+                    @* <td>@Html.DisplayFor(model => product.Id)</td> *@
+                    <td>@Html.DisplayFor(model => product.Name)</td>
+                    <td>@Html.DisplayFor(model => product.Description)</td>
+                    <td>@Html.DisplayFor(model => product.Price)</td>
+                    <td>@Html.DisplayFor(model => product.Quantity)</td>
+                    <td>@Html.DisplayFor(model => product.Category)</td>
+                    <td>
+                        @Html.ActionLink("Add to cart", "AddProduct", "ShoppingCart", new { 
+                            id = product.Id,
+                            name = product.Name,
+                            description = product.Description,
+                            price = product.Price,
+                            quantity = product.Quantity,
+                            category = product.Category,
+                            userId = "111" //IMPLEMENT 
+                        })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

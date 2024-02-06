@@ -10,6 +10,8 @@
 
         public string? FullName => $"{this.FirstName} {this.LastName}";
 
+        public string? Username { get; set; }
+
         public DateTime? DateOfBirth { get; set; }
 
         public long? Age => this.DateOfBirth.HasValue ? Convert.ToInt32((DateTime.Now - this.DateOfBirth).Value.Days / 365) : null;

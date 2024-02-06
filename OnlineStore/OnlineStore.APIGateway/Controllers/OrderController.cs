@@ -8,11 +8,21 @@ namespace OnlineStore.APIGateway.Controllers
     public class OrderController : ControllerBase
     {
         [HttpPost]
-        [Route("Confirm")]
-        public async Task<IActionResult> Confirm([FromBody] OrderConfirmRequestModel model)
+        [Route("PurchaseConfirm")]
+        public async Task<IActionResult> PurchaseConfirm([FromBody] OrderPurchaseConfirmRequestModel model)
         {
             var orderProxy = ServiceProxy.Create<IOrder>(new Uri("fabric:/OnlineStore/OnlineStore.Order"));
-            var result = await orderProxy.Confirm(model);
+            var result = await orderProxy.PurchaseConfirm(model);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("PurchaseGetAll/{userId}")]
+        public async Task<IActionResult> PurchaseGetAll(string userId)
+        {
+            var orderProxy = ServiceProxy.Create<IOrder>(new Uri("fabric:/OnlineStore/OnlineStore.Order"));
+            var result = await orderProxy.PurchaseGetAll(userId);
 
             return Ok(result);
         }

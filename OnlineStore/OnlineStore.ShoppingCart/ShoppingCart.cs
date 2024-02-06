@@ -11,7 +11,7 @@ namespace OnlineStore.ShoppingCart
 {
     internal sealed class ShoppingCart : StatefulService, IShoppingCart
     {
-        private IReliableDictionary<long, ShoppingCartProductGetAllItemModel> _products;
+        private IReliableDictionary<long, ShoppingCartProductGetAllItemModel> _cartProducts;
         private readonly IReliableStateManager _stateManager;
 
         public ShoppingCart(StatefulServiceContext context) : base(context)
@@ -21,7 +21,7 @@ namespace OnlineStore.ShoppingCart
 
         #region IShoppingCartImplementation
 
-        public async Task<ShoppingCartProductAddResponseModel> Add(ShoppingCartProductAddRequestModel? model)
+        public async Task<ShoppingCartProductAddResponseModel> Add(ShoppingCartProductAddRequestModel? model, string? userId)
         {
             using (ITransaction tx = _stateManager.CreateTransaction())
             {
@@ -33,39 +33,75 @@ namespace OnlineStore.ShoppingCart
                     Price = model.Price,
                     Quantity = model.Quantity,
                     Category = model.Category,
-                    UserId = model.UserId
+                    UserId = userId
                 };
 
-                ConditionalValue<ShoppingCartProductGetAllItemModel> existingProduct = await _products.TryGetValueAsync(tx, convertedModel!.Id!.Value);
+                ConditionalValue<ShoppingCartProductGetAllItemModel> existingProduct = await _cartProducts.TryGetValueAsync(tx, convertedModel!.Id!.Value);
 
                 if (existingProduct.HasValue && existingProduct.Value.UserId == convertedModel.UserId)
                 {
                     convertedModel.Quantity += existingProduct.Value.Quantity;
                 }
 
-                await _products.AddOrUpdateAsync(tx, convertedModel.Id!.Value, convertedModel, (id, value) => convertedModel);
+                await _cartProducts.AddOrUpdateAsync(tx, convertedModel.Id!.Value, convertedModel, (id, value) => convertedModel);
                 await tx.CommitAsync();
             }
 
             return new ShoppingCartProductAddResponseModel();
         }
 
-        public async Task<ShoppingCartProductRemoveResponseModel> Remove(ShoppingCartProductRemoveRequestModel? model)
+        public async Task<ShoppingCartQuantityIncreaseResponseModel> IncreaseQuantity(long? productId, string? userId)
         {
             using (ITransaction tx = _stateManager.CreateTransaction())
             {
-                ConditionalValue<ShoppingCartProductGetAllItemModel> existingProduct = await _products.TryGetValueAsync(tx, model!.ProductId!.Value);
+                ConditionalValue<ShoppingCartProductGetAllItemModel> existingProduct = await _cartProducts.TryGetValueAsync(tx, productId!.Value);
 
-                if (existingProduct.HasValue && existingProduct.Value.UserId == model.UserId)
+                if (existingProduct.HasValue && existingProduct.Value.UserId == userId)
+                {
+                    existingProduct.Value.Quantity += 1;
+                }
+
+                await _cartProducts.AddOrUpdateAsync(tx, existingProduct.Value.Id!.Value, existingProduct.Value, (id, value) => existingProduct.Value);
+                await tx.CommitAsync();
+            }
+
+            return new ShoppingCartQuantityIncreaseResponseModel();
+        }
+
+        public async Task<ShoppingCartProductRemoveResponseModel> Remove(ShoppingCartProductRemoveRequestModel? model, string? userId)
+        {
+            using (ITransaction tx = _stateManager.CreateTransaction())
+            {
+                ConditionalValue<ShoppingCartProductGetAllItemModel> existingProduct = await _cartProducts.TryGetValueAsync(tx, model!.ProductId!.Value);
+
+                if (existingProduct.HasValue && existingProduct.Value.UserId == userId)
                 {
                     existingProduct.Value.Quantity -= model.Quantity;
                 }
 
-                await _products.AddOrUpdateAsync(tx, existingProduct.Value.Id!.Value, existingProduct.Value, (id, value) => existingProduct.Value);
+                await _cartProducts.AddOrUpdateAsync(tx, existingProduct.Value.Id!.Value, existingProduct.Value, (id, value) => existingProduct.Value);
                 await tx.CommitAsync();
             }
 
             return new ShoppingCartProductRemoveResponseModel();
+        }
+
+        public async Task<ShoppingCartQuantityDecreaseResponseModel> DecreaseQuantity(long? productId, string? userId)
+        {
+            using (ITransaction tx = _stateManager.CreateTransaction())
+            {
+                ConditionalValue<ShoppingCartProductGetAllItemModel> existingProduct = await _cartProducts.TryGetValueAsync(tx, productId!.Value);
+
+                if (existingProduct.HasValue && existingProduct.Value.UserId == userId)
+                {
+                    existingProduct.Value.Quantity -= 1;
+                }
+
+                await _cartProducts.AddOrUpdateAsync(tx, existingProduct.Value.Id!.Value, existingProduct.Value, (id, value) => existingProduct.Value);
+                await tx.CommitAsync();
+            }
+
+            return new ShoppingCartQuantityDecreaseResponseModel();
         }
 
         public async Task<ShoppingCartProductGetAllResponseModel> GetAll(string? userId)
@@ -74,7 +110,7 @@ namespace OnlineStore.ShoppingCart
 
             using (var tx = _stateManager.CreateTransaction())
             {
-                var enumerator = (await _products.CreateEnumerableAsync(tx)).GetAsyncEnumerator();
+                var enumerator = (await _cartProducts.CreateEnumerableAsync(tx)).GetAsyncEnumerator();
 
                 while (await enumerator.MoveNextAsync(default))
                 {
@@ -96,7 +132,7 @@ namespace OnlineStore.ShoppingCart
         {
 
             var myDictionary = await this.StateManager.GetOrAddAsync<IReliableDictionary<string, long>>("myDictionary");
-            _products = await _stateManager.GetOrAddAsync<IReliableDictionary<long, ShoppingCartProductGetAllItemModel>>("products");
+            _cartProducts = await _stateManager.GetOrAddAsync<IReliableDictionary<long, ShoppingCartProductGetAllItemModel>>("cartProducts");
 
             while (true)
             {

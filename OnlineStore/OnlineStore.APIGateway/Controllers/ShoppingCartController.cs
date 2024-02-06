@@ -10,21 +10,41 @@ namespace OnlineStore.APIGateway.Controllers
     public class ShoppingCartController : ControllerBase
     {
         [HttpPost]
-        [Route("Add")]
-        public async Task<IActionResult> Add([FromBody] ShoppingCartProductAddRequestModel model)
+        [Route("Add/{userId}")]
+        public async Task<IActionResult> Add([FromBody] ShoppingCartProductAddRequestModel model, string userId)
         {
             var shoppingCartProxy = ServiceProxy.Create<IShoppingCart>(new Uri("fabric:/OnlineStore/OnlineStore.ShoppingCart"), await getAvailablePartitionKey());
-            var result = await shoppingCartProxy.Add(model);
+            var result = await shoppingCartProxy.Add(model, userId);
 
             return Ok(result);
         }
 
         [HttpPost]
-        [Route("Remove")]
-        public async Task<IActionResult> Remove([FromBody] ShoppingCartProductRemoveRequestModel model)
+        [Route("IncreaseQuantity/{productId:long}/{userId}")]
+        public async Task<IActionResult> IncreaseQuantity(long productId, string userId)
         {
             var shoppingCartProxy = ServiceProxy.Create<IShoppingCart>(new Uri("fabric:/OnlineStore/OnlineStore.ShoppingCart"), await getAvailablePartitionKey());
-            var result = await shoppingCartProxy.Remove(model);
+            var result = await shoppingCartProxy.IncreaseQuantity(productId, userId);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("Remove/{userId}")]
+        public async Task<IActionResult> Remove([FromBody] ShoppingCartProductRemoveRequestModel model, string userId)
+        {
+            var shoppingCartProxy = ServiceProxy.Create<IShoppingCart>(new Uri("fabric:/OnlineStore/OnlineStore.ShoppingCart"), await getAvailablePartitionKey());
+            var result = await shoppingCartProxy.Remove(model, userId);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("DecreaseQuantity/{productId:long}/{userId}")]
+        public async Task<IActionResult> DecreaseQuantity(long productId, string userId)
+        {
+            var shoppingCartProxy = ServiceProxy.Create<IShoppingCart>(new Uri("fabric:/OnlineStore/OnlineStore.ShoppingCart"), await getAvailablePartitionKey());
+            var result = await shoppingCartProxy.DecreaseQuantity(productId, userId);
 
             return Ok(result);
         }
