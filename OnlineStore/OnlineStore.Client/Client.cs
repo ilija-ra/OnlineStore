@@ -1,6 +1,10 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using OnlineStore.Client.Areas.Identity.Data;
+using OnlineStore.Client.Data;
 using System.Fabric;
 
 namespace OnlineStore.Client
@@ -37,7 +41,11 @@ namespace OnlineStore.Client
                                     .UseUrls(url);
                         
                         // Add services to the container.
-                        builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+                        builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("Data Source=OnlineStore.Client.db"));
+                        builder.Services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+                        builder.Services.AddControllersWithViews();
+                        builder.Services.AddRazorPages();
                         builder.Services.AddMvc(option => option.EnableEndpointRouting = false);
                         builder.Services.AddHttpClient();
 
@@ -53,7 +61,6 @@ namespace OnlineStore.Client
                             app.UseExceptionHandler("/Home/Error");
                             app.UseHsts();
                         }
-
 
                         app.UseStaticFiles();
                         app.UseRouting();

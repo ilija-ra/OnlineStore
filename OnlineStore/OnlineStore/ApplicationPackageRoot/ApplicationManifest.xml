@@ -43,15 +43,4 @@
       <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="[OnlineStore.Client_ASPNETCORE_ENVIRONMENT]" />
     </EnvironmentOverrides>
   </ServiceManifestImport>
-  <!--<DefaultServices>
-		<Service Name="ShoppingCart" ServicePackageActivationMode="ExclusiveProcess">
-			<StatefulService ServiceTypeName="OnlineStore.ShoppingCartType" TargetReplicaSetSize="[TargetReplicaSetSize]" MinReplicaSetSize="[MinReplicaSetSize]">
-				<NamedPartition>
-					<Partition Name=""/>
-					<Partition Name=""/>
-					<Partition Name=""/>
-				</NamedPartition>
-			</StatefulService>
-		</Service>
-	</DefaultServices>-->
 </ApplicationManifest>

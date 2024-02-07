@@ -17,7 +17,6 @@
     <PackageReference Include="Microsoft.ServiceFabric.Services" Version="7.0.1816" />
     <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" Version="7.0.1816" />
     <PackageReference Include="Refit" Version="7.0.0" />
-    <PackageReference Include="SoCreate.ServiceFabric.PubSub" Version="15.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 

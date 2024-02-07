@@ -1,30 +1,15 @@
 using Microsoft.ServiceFabric.Services.Communication.AspNetCore;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using SoCreate.ServiceFabric.PubSub;
-using SoCreate.ServiceFabric.PubSub.Subscriber;
+using Microsoft.ServiceFabric.Services.Runtime;
 using System.Fabric;
 
 namespace OnlineStore.APIGateway
 {
-    internal sealed class APIGateway : /*StatelessService*/SubscriberStatelessServiceBase
+    internal sealed class APIGateway : StatelessService
     {
-        public APIGateway(StatelessServiceContext context, IBrokerClient brokerClient = null)
-            : base(context, brokerClient)
+        public APIGateway(StatelessServiceContext context)
+            : base(context)
         { }
-
-        //[Subscribe]
-        //private Task HandleMessageOne(PublishedMessageOne message)
-        //{
-        //    ServiceEventSource.Current.ServiceMessage(Context, $"Processing PublishedMessageOne: {message.Content}");
-        //    return Task.CompletedTask;
-        //}
-
-        //[Subscribe(QueueType.Unordered)]
-        //private Task HandleMessageTwo(PublishedMessageTwo message)
-        //{
-        //    ServiceEventSource.Current.ServiceMessage(Context, $"Processing PublishedMessageTwo: {message.Content}");
-        //    return Task.CompletedTask;
-        //}
 
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
@@ -64,10 +49,7 @@ namespace OnlineStore.APIGateway
 
                         app.MapControllers();
 
-
                         return app;
-
-
                     }))
             };
         }
