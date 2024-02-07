@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.Communication",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineStore.Order", "OnlineStore.Order\OnlineStore.Order.csproj", "{2BFA9648-E2E8-4AC9-9BF6-19FA2AED92ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineStore.Azurite", "OnlineStore.Azurite\OnlineStore.Azurite.csproj", "{0756369A-85D0-4F57-91E2-3FE36C9E14DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,14 @@ Global
 		{2BFA9648-E2E8-4AC9-9BF6-19FA2AED92ED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2BFA9648-E2E8-4AC9-9BF6-19FA2AED92ED}.Release|x64.ActiveCfg = Release|Any CPU
 		{2BFA9648-E2E8-4AC9-9BF6-19FA2AED92ED}.Release|x64.Build.0 = Release|Any CPU
+		{0756369A-85D0-4F57-91E2-3FE36C9E14DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0756369A-85D0-4F57-91E2-3FE36C9E14DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0756369A-85D0-4F57-91E2-3FE36C9E14DF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0756369A-85D0-4F57-91E2-3FE36C9E14DF}.Debug|x64.Build.0 = Debug|Any CPU
+		{0756369A-85D0-4F57-91E2-3FE36C9E14DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0756369A-85D0-4F57-91E2-3FE36C9E14DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0756369A-85D0-4F57-91E2-3FE36C9E14DF}.Release|x64.ActiveCfg = Release|Any CPU
+		{0756369A-85D0-4F57-91E2-3FE36C9E14DF}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

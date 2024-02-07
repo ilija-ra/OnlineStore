@@ -16,6 +16,11 @@ namespace OnlineStore.APIGateway.Controllers
             var productCatalogProxy = ServiceProxy.Create<IProductCatalog>(new Uri("fabric:/OnlineStore/OnlineStore.ProductCatalog"));
             var result = await productCatalogProxy.Search(model);
 
+            if (result is null)
+            {
+                return BadRequest();
+            }
+
             return Ok(result);
         }
     }

@@ -13,7 +13,7 @@
 
         public List<string>? PurchasedProducts { get; set; }
 
-        public decimal? TotalAmount { get; set; }
+        public double? TotalAmount { get; set; }
 
         public string? PaymentMethod { get; set; }
 

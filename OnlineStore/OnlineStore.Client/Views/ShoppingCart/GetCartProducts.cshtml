@@ -28,7 +28,7 @@
                     <td>@Html.DisplayFor(model => product.Quantity)</td>
                     <td>@Html.DisplayFor(model => product.Category)</td>
                     <td>
-                        @Html.ActionLink("+", "IncreaseQuantity", "ShoppingCart", new { productId = product.Id, userId = product.UserId }) | 
+                        @Html.ActionLink("+", "IncreaseQuantity", "ShoppingCart", new { productId = product.Id, userId = product.UserId }) |
                         @Html.ActionLink("-", "DecreaseQuantity", "ShoppingCart", new { productId = product.Id, userId = product.UserId }) |
                         @Html.ActionLink("X", "RemoveProduct", "ShoppingCart", new { productId = product.Id, userId = product.UserId }, new { onclick = "return confirm('Are you sure you want to remove this product?');" })
                     </td>
@@ -36,4 +36,11 @@
             }
         </tbody>
     </table>
+
+    @if (Model.Items.Count > 0)
+    {
+        <div class="d-flex justify-content-center mt-3">
+            @Html.ActionLink("Confirm Purchase", "Confirm", "Order", new { }, null)
+        </div>
+    }
 </div>

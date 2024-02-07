@@ -16,6 +16,11 @@ namespace OnlineStore.APIGateway.Controllers
             var orderProxy = ServiceProxy.Create<IOrder>(new Uri("fabric:/OnlineStore/OnlineStore.Order"));
             var result = await orderProxy.PurchaseConfirm(model);
 
+            if (result is null)
+            {
+                return BadRequest();
+            }
+
             return Ok(result);
         }
 
@@ -25,6 +30,11 @@ namespace OnlineStore.APIGateway.Controllers
         {
             var orderProxy = ServiceProxy.Create<IOrder>(new Uri("fabric:/OnlineStore/OnlineStore.Order"));
             var result = await orderProxy.PurchaseGetAll(userId);
+
+            if (result is null)
+            {
+                return BadRequest();
+            }
 
             return Ok(result);
         }

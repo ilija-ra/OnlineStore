@@ -1,3 +1,4 @@
+using Azure.Data.Tables;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
@@ -9,6 +10,10 @@ namespace OnlineStore.ProductCatalog
 {
     internal sealed class ProductCatalog : StatelessService, IProductCatalog
     {
+        string azuriteAccountName = "devstoreaccount1";
+        string azuriteAccountKey = "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==";
+        Uri azuriteTableEndpoint = new Uri("http://127.0.0.1:10002/devstoreaccount1");
+
         public ProductCatalog(StatelessServiceContext context)
             : base(context)
         { }
@@ -17,46 +22,26 @@ namespace OnlineStore.ProductCatalog
 
         public async Task<ProductCatalogProductSearchResponseModel> Search(ProductCatalogProductSearchRequestModel? model)
         {
+            var tableServiceClient = new TableServiceClient(azuriteTableEndpoint, new TableSharedKeyCredential(azuriteAccountName, azuriteAccountKey));
+
+            var containerClient = tableServiceClient.GetTableClient("Products");
+
+            var products = containerClient.QueryAsync<TableEntity>();
+
             var response = new ProductCatalogProductSearchResponseModel();
-            response.Items = new List<ProductCatalogProductSearchItemModel>
+
+            await foreach (var product in products)
             {
-                new ProductCatalogProductSearchItemModel
+                response.Items!.Add(new ProductCatalogProductSearchItemModel()
                 {
-                    Id = 1,
-                    Name = "Product 1",
-                    Description = "Description of Product 1",
-                    Price = 19.99,
-                    Quantity = 100,
-                    Category = "Electronics"
-                },
-                new ProductCatalogProductSearchItemModel
-                {
-                    Id = 2,
-                    Name = "Product 2",
-                    Description = "Description of Product 2",
-                    Price = 29.99,
-                    Quantity = 50,
-                    Category = "Clothing"
-                },
-                new ProductCatalogProductSearchItemModel
-                {
-                    Id = 3,
-                    Name = "Product 3",
-                    Description = "Description of Product 3",
-                    Price = 39.99,
-                    Quantity = 75,
-                    Category = "Home Appliances"
-                },
-                new ProductCatalogProductSearchItemModel
-                {
-                    Id = 4,
-                    Name = "Product 4",
-                    Description = "Description of Product 4",
-                    Price = 49.99,
-                    Quantity = 120,
-                    Category = "Furniture"
-                }
-            };
+                    Id = Convert.ToInt64(product["RowKey"]),
+                    Name = product["Name"].ToString(),
+                    Description = product["Description"].ToString(),
+                    Price = Convert.ToDouble(product["Price"]),
+                    Quantity = Convert.ToInt64(product["Quantity"]),
+                    Category = product["Category"].ToString()
+                });
+            }
 
             if (model!.Query is null || model!.Query == string.Empty)
             {
@@ -65,9 +50,9 @@ namespace OnlineStore.ProductCatalog
 
             model!.Query = model!.Query?.ToLower();
 
-            var filtered = response.Items.Where(x => x.Name!.ToLower().Contains(model!.Query!) ||
-                                                     x.Description!.ToLower().Contains(model!.Query!) ||
-                                                     x.Category!.ToLower().Contains(model!.Query!)).ToList();
+            var filtered = response.Items!.Where(x => x.Name!.ToLower().Contains(model!.Query!) ||
+                                                      x.Description!.ToLower().Contains(model!.Query!) ||
+                                                      x.Category!.ToLower().Contains(model!.Query!)).ToList();
 
             response.Items = filtered;
 
@@ -76,7 +61,33 @@ namespace OnlineStore.ProductCatalog
 
         public async Task<ProductCatalogProductGetByIdResponseModel> GetById(long? productId)
         {
-            throw new NotImplementedException();
+            var tableServiceClient = new TableServiceClient(azuriteTableEndpoint, new TableSharedKeyCredential(azuriteAccountName, azuriteAccountKey));
+
+            var containerClient = tableServiceClient.GetTableClient("Products");
+
+            var products = containerClient.QueryAsync<TableEntity>();
+
+            var response = new ProductCatalogProductGetByIdResponseModel();
+
+            await foreach (var product in products)
+            {
+                if (product["RowKey"].ToString() != productId!.Value.ToString())
+                {
+                    continue;
+                }
+
+                response = new ProductCatalogProductGetByIdResponseModel()
+                {
+                    Id = Convert.ToInt64(product["RowKey"]),
+                    Name = product["RowKey"].ToString(),
+                    Description = product["Description"].ToString(),
+                    Price = Convert.ToDouble(product["Price"]),
+                    Quantity = Convert.ToInt64(product["Quantity"]),
+                    Category = product["Category"].ToString()
+                };
+            }
+
+            return response;
         }
 
         #endregion

@@ -11,25 +11,14 @@
 
         public DateTime? PurchaseDate { get; set; }
 
-        public List<string>? PurchasedProducts { get; set; }
+        public string? PurchasedProducts { get; set; }
 
-        public decimal? TotalAmount { get; set; }
+        public double? TotalAmount { get; set; }
+
+        public string? CardNumber { get; set; }
 
         public string? PaymentMethod { get; set; }
 
         public string? UserId { get; set; }
     }
-
-    //public class OrderPurchaseProductItemModel
-    //{
-    //    public long? Id { get; set; }
-
-    //    public string? Name { get; set; }
-
-    //    public double? Price { get; set; }
-
-    //    public long? Quantity { get; set; }
-
-    //    public string? Category { get; set; }
-    //}
 }

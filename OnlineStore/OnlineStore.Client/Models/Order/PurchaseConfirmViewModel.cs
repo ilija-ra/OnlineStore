@@ -1,21 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OnlineStore.Client.Models.UserManagement
+namespace OnlineStore.Client.Models.Order
 {
-    public class PurchaseHistoryViewModel
+    public class PurchaseConfirmViewModel
     {
         public long? Id { get; set; }
 
-        [Display(Name = "Purchase Date")]
-        public string? PurchaseDate { get; set; }
+        public string? Products { get; set; }
 
-        [Display(Name = "Purchased Products")]
-        public List<string>? PurchasedProducts { get; set; }
+        [Display(Name = "Purchase Date")]
+        public DateTime? PurchaseDate { get; set; }
+
+        [Display(Name = "Card Number")]
+        public string? CardNumber { get; set; }
 
         [Display(Name = "Total Amount")]
         public double? TotalAmount { get; set; }
 
-        [Display(Name = "Payment method")]
+        [Display(Name = "Payment Method")]
         public string? PaymentMethod { get; set; }
 
         public string? UserId { get; set; }

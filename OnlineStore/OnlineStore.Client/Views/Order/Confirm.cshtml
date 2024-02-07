@@ -1,0 +1,63 @@
+﻿@model OnlineStore.Client.Models.Order.PurchaseConfirmViewModel
+
+@{
+    ViewData["Title"] = "Confirm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Purchase Confirmation</h1>
+
+<h4>Please confirm info below</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="PurchaseConfirm" asp-controller="Order" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Products" class="control-label"></label>
+                <input asp-for="Products" class="form-control" />
+                <span asp-validation-for="Products" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalAmount" class="control-label">Total Amount</label>
+                <input asp-for="TotalAmount" class="form-control" />
+                <span asp-validation-for="TotalAmount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentMethod" class="control-label">Payment Method</label><br />
+                <input type="radio" asp-for="PaymentMethod" value="CashOnDelivery" checked="checked" /> Cash on Delivery<br />
+                <input type="radio" asp-for="PaymentMethod" value="PayPal" /> PayPal
+                <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="cardNumberField" style="display: none;">
+                <label asp-for="CardNumber" class="control-label">Card Number</label>
+                <input asp-for="CardNumber" class="form-control" />
+                <span asp-validation-for="CardNumber" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <input type="submit" value="Purchase" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $('input[type=radio][name=PaymentMethod]').change(function () {
+                if (this.value === 'PayPal') {
+                    $('#cardNumberField').show();
+                } else {
+                    $('#cardNumberField').hide();
+                }
+            });
+        });
+    </script>
+}
